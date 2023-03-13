@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { View, StyleSheet, Text, TextInput, Button } from "react-native";
+import { View, StyleSheet, Text, TextInput, Button, Alert } from "react-native";
 
 const AddTodo = ({ onSubmit }) => {
 	const [value, setValue] = useState("");
@@ -8,6 +8,8 @@ const AddTodo = ({ onSubmit }) => {
 		if (value.trim()) {
 			onSubmit(value);
 			setValue("");
+		} else {
+			Alert.alert("Error. Field don't be empty");
 		}
 	};
 	return (
@@ -17,6 +19,8 @@ const AddTodo = ({ onSubmit }) => {
 				onChangeText={setValue}
 				value={value}
 				placeholder="Writing..."
+				autoCorrect={false}
+				autoCapitalize="words"
 			/>
 			<Button style={styles.button} title="Add" onPress={addItem} />
 		</View>
