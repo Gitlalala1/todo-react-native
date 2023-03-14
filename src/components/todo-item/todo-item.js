@@ -9,7 +9,7 @@ const TodoItem = ({ item, removeTodo, onOpen }) => {
 			onLongPress={() => removeTodo(item.id)}
 		>
 			<View style={style.todoItem}>
-				<Text>{item.title}</Text>
+				<Text style={style.itemText}>{item.title}</Text>
 			</View>
 		</TouchableOpacity>
 	);
@@ -22,6 +22,9 @@ const style = StyleSheet.create({
 		borderColor: "blue",
 		borderRadius: 5,
 		marginBottom: 15,
+	},
+	itemText: {
+		fontFamily: "roboto-regular",
 	},
 });
 export default TodoItem;
