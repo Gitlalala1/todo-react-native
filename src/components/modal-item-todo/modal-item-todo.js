@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { View, Modal, TextInput, Button, StyleSheet } from "react-native";
 
+import AppButton from "../ui/app-button";
 const ModalItemTodo = ({ visible, onCancel, itemTodo }) => {
 	const [value, setValue] = useState(itemTodo.title);
 
 	return (
-		<Modal
-			style={style.wrapModal}
-			visible={visible}
-			animationType="slide"
-			transparent={false}
-		>
+		<Modal visible={visible} animationType="slide" transparent={false}>
 			<View style={style.modal}>
 				<TextInput
 					style={style.modal.input}
@@ -19,11 +15,13 @@ const ModalItemTodo = ({ visible, onCancel, itemTodo }) => {
 					value={value}
 					onChangeText={setValue}
 				/>
-				<View style={[style.modal.btn, style.modal.btn.cancel]}>
-					<Button title="Cancel" onPress={onCancel} />
-				</View>
-				<View style={style.modal.btn}>
-					<Button title="Save" />
+				<View style={style.modal.buttons}>
+					<AppButton onPress={onCancel} colorBgc="red" width={"35%"}>
+						Cancel
+					</AppButton>
+					<AppButton onPress={() => {}} colorBgc="blue" width={"35%"}>
+						Save
+					</AppButton>
 				</View>
 			</View>
 		</Modal>
@@ -46,11 +44,10 @@ const style = StyleSheet.create({
 			paddingVertical: 10,
 			marginBottom: 10,
 		},
-		btn: {
-			width: "35%",
-			cancel: {
-				marginBottom: 15,
-			},
+		buttons: {
+			width: "80%",
+			flexDirection: "row",
+			justifyContent: "space-between",
 		},
 	},
 });

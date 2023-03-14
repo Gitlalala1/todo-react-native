@@ -25,8 +25,7 @@ const AddTodo = ({ onSubmit }) => {
 			<AntDesign.Button name="pluscircleo" onPress={addItem}>
 				Add
 			</AntDesign.Button>
-			{/* <Button style={styles.button} title="Add" onPress={addItem}/>
-			<AntDesign name="pluscircleo" size={24} color="black" /> */}
+
 		</View>
 	);
 };

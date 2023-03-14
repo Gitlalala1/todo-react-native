@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import ModalItemTodo from "../../components/modal-item-todo";
 
+import { AntDesign } from "@expo/vector-icons";
+import ModalItemTodo from "../../components/modal-item-todo";
+import AppButton from "../../components/ui/app-button";
 const TodoScreen = ({ goBack, itemTodo, removeTodo }) => {
 	const [modal, setModal] = useState(false);
 
@@ -14,22 +16,22 @@ const TodoScreen = ({ goBack, itemTodo, removeTodo }) => {
 			/>
 			<View style={style.cart}>
 				<Text style={style.cart.title}>{itemTodo.title}</Text>
-				<View style={style.cart.button}>
-					<Button title="Change" onPress={() => setModal(true)} />
-				</View>
+				<AppButton onPress={() => setModal(true)} colorBgc="blue" width={"30%"}>
+					Change
+				</AppButton>
 			</View>
 
 			<View style={style.buttons}>
-				<View style={style.button}>
-					<Button title="Back" color="#757575" onPress={goBack} />
-				</View>
-				<View style={style.button}>
-					<Button
-						title="Remove"
-						color="red"
-						onPress={() => removeTodo(itemTodo.id)}
-					/>
-				</View>
+				<AppButton onPress={goBack} colorBgc="#757575" width={"30%"}>
+					<AntDesign name="back" size={24} color="#fff" />
+				</AppButton>
+				<AppButton
+					onPress={() => removeTodo(itemTodo.id)}
+					colorBgc="red"
+					width={"30%"}
+				>
+					Remove
+				</AppButton>
 			</View>
 		</View>
 	);
@@ -52,17 +54,10 @@ const style = StyleSheet.create({
 			width: "60%",
 			fontSize: 18,
 		},
-		button: {
-			width: "30%",
-		},
 	},
 	buttons: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-	},
-	button: {
-		width: "35%",
-		borderRadius: 20,
 	},
 });
 
