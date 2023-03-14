@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, Dimensions } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
 import ModalItemTodo from "../../components/modal-item-todo";
@@ -16,22 +16,24 @@ const TodoScreen = ({ goBack, itemTodo, removeTodo }) => {
 			/>
 			<View style={style.cart}>
 				<Text style={style.cart.title}>{itemTodo.title}</Text>
-				<AppButton onPress={() => setModal(true)} colorBgc="blue" width={"30%"}>
-					Change
-				</AppButton>
+				<View style={style.button}>
+					<AppButton onPress={() => setModal(true)} colorBgc="blue">
+						Change
+					</AppButton>
+				</View>
 			</View>
 
 			<View style={style.buttons}>
-				<AppButton onPress={goBack} colorBgc="#757575" width={"30%"}>
-					<AntDesign name="back" size={24} color="#fff" />
-				</AppButton>
-				<AppButton
-					onPress={() => removeTodo(itemTodo.id)}
-					colorBgc="red"
-					width={"30%"}
-				>
-					Remove
-				</AppButton>
+				<View style={style.button}>
+					<AppButton onPress={goBack} colorBgc="#757575">
+						<AntDesign name="back" size={24} color="#fff" />
+					</AppButton>
+				</View>
+				<View style={style.button}>
+					<AppButton onPress={() => removeTodo(itemTodo.id)} colorBgc="red">
+						Remove
+					</AppButton>
+				</View>
 			</View>
 		</View>
 	);
@@ -58,6 +60,15 @@ const style = StyleSheet.create({
 	buttons: {
 		flexDirection: "row",
 		justifyContent: "space-between",
+	},
+	button: {
+		// width: "30%",
+		width:
+			Dimensions.get("window").width > 400
+				? "30%"
+				: Dimensions.get("window").width / 4, //get window/screen
+		overflow: "hidden",
+		borderRadius: 20,
 	},
 });
 
