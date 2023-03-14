@@ -1,29 +1,46 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	TouchableNativeFeedback,
+	Platform,
+} from "react-native";
 
 const AppButton = ({ children, onPress, colorBgc, width }) => {
+	const Wrapper =
+		Platform.OS === "android" ? TouchableNativeFeedback : TouchableOpacity;
+
 	return (
-		<TouchableOpacity
-			onPress={onPress}
-			activeOpacity={0.7}
-			style={{ width: width }}
-		>
-			<View style={{ ...style.button, backgroundColor: colorBgc }}>
-				<Text style={style.txt}>{children}</Text>
-			</View>
-		</TouchableOpacity>
+		<View style={{ width: width }}>
+			<Wrapper onPress={onPress} activeOpacity={0.7}>
+				<View
+					style={{
+						...style.button,
+						backgroundColor: colorBgc,
+					}}
+				>
+					<Text style={style.txtBtn}>{children}</Text>
+				</View>
+			</Wrapper>
+		</View>
 	);
 };
 
 const style = StyleSheet.create({
 	button: {
 		borderRadius: 20,
-		padding: 10,
+
 		justifyContent: "center",
 		alignItems: "center",
 		flexDirection: "row",
+		...Platform.select({
+			android: { padding: 10 },
+			ios: { padding: 13 },
+		}),
 	},
-	txt: {
+	txtBtn: {
 		color: "#fff",
 		fontSize: 17,
 	},

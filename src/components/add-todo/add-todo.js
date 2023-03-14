@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TextInput, Button, Alert } from "react-native";
+import {
+	View,
+	StyleSheet,
+	Text,
+	TextInput,
+	Button,
+	Alert,
+	Keyboard,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 const AddTodo = ({ onSubmit }) => {
@@ -8,6 +16,7 @@ const AddTodo = ({ onSubmit }) => {
 		if (value.trim()) {
 			onSubmit(value);
 			setValue("");
+			Keyboard.dismiss();
 		} else {
 			Alert.alert("Error. Field don't be empty");
 		}
@@ -25,7 +34,6 @@ const AddTodo = ({ onSubmit }) => {
 			<AntDesign.Button name="pluscircleo" onPress={addItem}>
 				Add
 			</AntDesign.Button>
-
 		</View>
 	);
 };
