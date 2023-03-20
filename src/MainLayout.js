@@ -4,10 +4,11 @@ import MainScreen from "./screens/main-screen";
 import TodoScreen from "./screens/todo-screen";
 import Navbar from "./components/navbar";
 import TodoContext from "./context/todo/todo-context";
+import ScreenContext from "./context/screen/screen-context";
 const MainLayout = () => {
 	const { todos, addTodo, removeTodo, updateTodo } = useContext(TodoContext);
-
-	const [todoId, setTodoId] = useState(null);
+	const { todoId, changeScreen } = useContext(ScreenContext);
+	// const [todoId, setTodoId] = useState(null);
 	// const [todos, setTodos] = useState([
 	// 	{ id: "1", title: "Drink cofee" },
 	// 	{ id: "2", title: "Drink beer" },
@@ -40,8 +41,8 @@ const MainLayout = () => {
 	// 		{ cancelable: true }
 	// 	);
 	// };
-	const onOpen = (itemId) => setTodoId(itemId);
-	const goBack = () => setTodoId(null);
+	const onOpen = (itemId) => changeScreen(itemId);
+	const goBack = () => changeScreen(null);
 
 	let content = (
 		<MainScreen
