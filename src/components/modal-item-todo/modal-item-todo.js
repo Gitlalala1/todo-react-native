@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Modal, TextInput, Button, StyleSheet } from "react-native";
 
 import AppButton from "../ui/app-button";
-const ModalItemTodo = ({ visible, onCancel, itemTodo }) => {
+const ModalItemTodo = ({ visible, onCancel, itemTodo, updateTodo }) => {
 	const [value, setValue] = useState(itemTodo.title);
 
 	return (
@@ -19,7 +19,14 @@ const ModalItemTodo = ({ visible, onCancel, itemTodo }) => {
 					<AppButton onPress={onCancel} colorBgc="red" width={"35%"}>
 						Cancel
 					</AppButton>
-					<AppButton onPress={() => {}} colorBgc="blue" width={"35%"}>
+					<AppButton
+						onPress={() => {
+							updateTodo(itemTodo.id, value);
+							onCancel();
+						}}
+						colorBgc="blue"
+						width={"35%"}
+					>
 						Save
 					</AppButton>
 				</View>

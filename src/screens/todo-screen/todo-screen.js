@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, Button, Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import ModalItemTodo from "../../components/modal-item-todo";
 import AppButton from "../../components/ui/app-button";
-const TodoScreen = ({ goBack, itemTodo, removeTodo }) => {
+const TodoScreen = ({ goBack, itemTodo, removeTodo, updateTodo }) => {
 	const [modal, setModal] = useState(false);
 
 	return (
@@ -12,6 +12,7 @@ const TodoScreen = ({ goBack, itemTodo, removeTodo }) => {
 			<ModalItemTodo
 				visible={modal}
 				onCancel={() => setModal(false)}
+				updateTodo={updateTodo}
 				itemTodo={itemTodo}
 			/>
 			<View style={style.cart}>
