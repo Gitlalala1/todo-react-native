@@ -1,11 +1,12 @@
-import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, View, Image } from "react-native";
 import AddTodo from "../../components/add-todo";
 import TodoList from "../../components/todo-list";
-const MainScreen = ({ todos, addTodo, removeTodo, onOpen }) => {
-	let content = (
-		<TodoList todos={todos} removeTodo={removeTodo} onOpen={onOpen} />
-	);
+import TodoContext from "../../context/todo/todo-context";
+const MainScreen = () => {
+	const { todos } = useContext(TodoContext);
+	let content = <TodoList />;
+
 	if (todos.length === 0) {
 		content = (
 			<View style={styles.wrapEmpty}>
@@ -18,7 +19,7 @@ const MainScreen = ({ todos, addTodo, removeTodo, onOpen }) => {
 	}
 	return (
 		<View>
-			<AddTodo onSubmit={addTodo} />
+			<AddTodo />
 			{content}
 		</View>
 	);

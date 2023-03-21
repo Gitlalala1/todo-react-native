@@ -16,7 +16,14 @@ const ModalItemTodo = ({ visible, onCancel, itemTodo, updateTodo }) => {
 					onChangeText={setValue}
 				/>
 				<View style={style.modal.buttons}>
-					<AppButton onPress={onCancel} colorBgc="red" width={"35%"}>
+					<AppButton
+						onPress={() => {
+							setValue(itemTodo.title);
+							onCancel();
+						}}
+						colorBgc="red"
+						width={"35%"}
+					>
 						Cancel
 					</AppButton>
 					<AppButton

@@ -1,20 +1,14 @@
-import React, { useState } from "react";
-import {
-	View,
-	StyleSheet,
-	Text,
-	TextInput,
-	Button,
-	Alert,
-	Keyboard,
-} from "react-native";
+import React, { useState, useContext } from "react";
+import { View, StyleSheet, TextInput, Alert, Keyboard } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import TodoContext from "./../../context/todo/todo-context";
 
-const AddTodo = ({ onSubmit }) => {
+const AddTodo = () => {
 	const [value, setValue] = useState("");
+	const { addTodo } = useContext(TodoContext);
 	const addItem = () => {
 		if (value.trim()) {
-			onSubmit(value);
+			addTodo(value);
 			setValue("");
 			Keyboard.dismiss();
 		} else {

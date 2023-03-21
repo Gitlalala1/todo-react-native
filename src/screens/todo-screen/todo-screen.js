@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, View, Text, Button, Dimensions } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
 import ModalItemTodo from "../../components/modal-item-todo";
 import AppButton from "../../components/ui/app-button";
-const TodoScreen = ({ goBack, itemTodo, removeTodo, updateTodo }) => {
+import TodoContext from "../../context/todo/todo-context";
+import ScreenContext from "../../context/screen/screen-context";
+const TodoScreen = () => {
 	const [modal, setModal] = useState(false);
+	const { todoId, changeScreen } = useContext(ScreenContext);
+	const { todos, updateTodo, removeTodo } = useContext(TodoContext);
+	const itemTodo = todos.find((el) => el.id == todoId);
 
 	return (
 		<View>
@@ -26,7 +31,7 @@ const TodoScreen = ({ goBack, itemTodo, removeTodo, updateTodo }) => {
 
 			<View style={style.buttons}>
 				<View style={style.button}>
-					<AppButton onPress={goBack} colorBgc="#757575">
+					<AppButton onPress={() => changeScreen(null)} colorBgc="#757575">
 						<AntDesign name="back" size={24} color="#fff" />
 					</AppButton>
 				</View>

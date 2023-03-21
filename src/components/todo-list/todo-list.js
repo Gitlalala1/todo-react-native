@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, FlatList, Dimensions, View, Text } from "react-native";
+import TodoContext from "../../context/todo/todo-context";
+import ScreenContext from "../../context/screen/screen-context";
 import TodoItem from "../todo-item";
-const TodoList = ({ todos, removeTodo, onOpen }) => {
+const TodoList = () => {
 	const [device, setDevice] = useState(Dimensions.get("window").width);
+	const { todos, removeTodo } = useContext(TodoContext);
+	const { changeScreen } = useContext(ScreenContext);
 	useEffect(() => {
 		const updateWidth = () => {
 			setDevice(Dimensions.get("window").width);
@@ -16,7 +20,7 @@ const TodoList = ({ todos, removeTodo, onOpen }) => {
 				keyExtractor={(item) => item.id}
 				data={todos}
 				renderItem={({ item }) => (
-					<TodoItem item={item} removeTodo={removeTodo} onOpen={onOpen} />
+					<TodoItem item={item} removeTodo={removeTodo} onOpen={changeScreen} />
 				)}
 			/>
 			<Text>Width window:{device}</Text>
@@ -24,7 +28,4 @@ const TodoList = ({ todos, removeTodo, onOpen }) => {
 	);
 };
 
-const style = StyleSheet.create({
-	todoList: {},
-});
 export default TodoList;
