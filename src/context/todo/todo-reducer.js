@@ -1,10 +1,10 @@
 const handlers = {
-	["ADD_TODO"]: (state, { title }) => ({
+	["ADD_TODO"]: (state, { id, title }) => ({
 		...state,
 		todos: [
 			...state.todos,
 			{
-				id: Date.now().toString(),
+				id,
 				title,
 			},
 		],
@@ -23,6 +23,20 @@ const handlers = {
 		...state,
 		todos: state.todos.filter((todo) => todo.id !== id),
 	}),
+	["FETCH_TODOS_REQUEST"]: (state, action) => ({
+		...state,
+		todos: action.payload,
+	}),
+	["FETCH_TODOS_SUCCESS"]: (state, action) => ({
+		...state,
+		loading: false,
+	}),
+	["FETCH_TODOS_FAILURE"]: (state, action) => ({
+		...state,
+		loading: false,
+		error: action.payload,
+	}),
+
 	DEFAULT: (state) => state,
 };
 

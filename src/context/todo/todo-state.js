@@ -6,11 +6,26 @@ import ScreenContext from "./../screen/screen-context";
 
 const TodoState = ({ children }) => {
 	const initialState = {
-		todos: [{ id: "1", title: "Drink beer" }],
+		todos: [],
+		loading: true,
+		error: null,
 	};
 	const [state, dispatch] = useReducer(TodoReducer, initialState);
 	const { changeScreen } = useContext(ScreenContext);
-	const addTodo = (title) => dispatch({ type: "ADD_TODO", title });
+
+	const addTodo = async (title) => {
+		const res = await fetch(
+			"https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos.json",
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ title }),
+			}
+		);
+		const data = await res.json();
+
+		dispatch({ type: "ADD_TODO", title, id: data.name });
+	};
 
 	const removeTodo = (id) => {
 		const itemRemove = state.todos.find((el) => el.id === id);
