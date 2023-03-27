@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import AddTodo from "../../components/add-todo";
 import TodoList from "../../components/todo-list";
 import TodoContext from "../../context/todo/todo-context";
 const MainScreen = () => {
 	const { todos } = useContext(TodoContext);
+
 	let content = <TodoList />;
 
 	if (todos.length === 0) {

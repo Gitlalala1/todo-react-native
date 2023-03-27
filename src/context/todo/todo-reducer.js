@@ -23,6 +23,7 @@ const handlers = {
 		...state,
 		todos: state.todos.filter((todo) => todo.id !== id),
 	}),
+
 	["FETCH_TODOS_REQUEST"]: (state, action) => ({
 		...state,
 		todos: action.payload,
@@ -31,6 +32,7 @@ const handlers = {
 		...state,
 		loading: false,
 	}),
+
 	["FETCH_TODOS_FAILURE"]: (state, action) => ({
 		...state,
 		loading: false,

@@ -48,12 +48,28 @@ const TodoState = ({ children }) => {
 			{ cancelable: true }
 		);
 	};
-
+	const fetchTodos = async () => {
+		const res = await fetch(
+			"https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos.json"
+		);
+		const data = await res.json();
+		const todos = Object.keys(data).map((key) => ({ ...data[key], id: key }));
+		dispatch({ type: "FETCH_TODOS_REQUEST", payload: todos });
+		dispatch({ type: "FETCH_TODOS_SUCCESS" });
+	};
 	const updateTodo = (id, title) =>
 		dispatch({ type: "UPDATE_TODO", id, title });
 	return (
 		<TodoContext.Provider
-			value={{ todos: state.todos, addTodo, removeTodo, updateTodo }}
+			value={{
+				todos: state.todos,
+				loading: state.loading,
+				error: state.error,
+				addTodo,
+				removeTodo,
+				updateTodo,
+				fetchTodos,
+			}}
 		>
 			{children}
 		</TodoContext.Provider>
