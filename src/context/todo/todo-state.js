@@ -39,8 +39,17 @@ const TodoState = ({ children }) => {
 				},
 				{
 					text: "OK",
-					onPress: () => {
+					onPress: async () => {
 						changeScreen(null);
+						await fetch(
+							`https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos/${itemRemove.id}.json`,
+							{
+								method: "DELETE",
+								headers: { "Content-Type": "application/json" },
+							}
+						).catch((e) =>
+							dispatch({ type: "FETCH_TODOS_FAILURE", payload: e })
+						);
 						dispatch({ type: "REMOVE_TODO", id: itemRemove.id });
 					},
 				},
@@ -49,16 +58,33 @@ const TodoState = ({ children }) => {
 		);
 	};
 	const fetchTodos = async () => {
-		const res = await fetch(
-			"https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos.json"
-		);
-		const data = await res.json();
-		const todos = Object.keys(data).map((key) => ({ ...data[key], id: key }));
-		dispatch({ type: "FETCH_TODOS_REQUEST", payload: todos });
-		dispatch({ type: "FETCH_TODOS_SUCCESS" });
+		try {
+			const res = await fetch(
+				"https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos.json"
+			);
+
+			const data = await res.json();
+			const todos = Object.keys(data).map((key) => ({ ...data[key], id: key }));
+			dispatch({ type: "FETCH_TODOS_REQUEST", payload: todos });
+			dispatch({ type: "FETCH_TODOS_SUCCESS" });
+		} catch (error) {
+			dispatch({ type: "FETCH_TODOS_FAILURE", payload: error });
+		}
 	};
-	const updateTodo = (id, title) =>
+
+	const updateTodo = async (id, title) => {
+		await fetch(
+			`https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos/${id}.json`,
+			{
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ title }),
+			}
+		).catch((e) => dispatch({ type: "FETCH_TODOS_FAILURE", payload: e }));
+
 		dispatch({ type: "UPDATE_TODO", id, title });
+	};
+
 	return (
 		<TodoContext.Provider
 			value={{

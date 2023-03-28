@@ -27,8 +27,8 @@ const ModalItemTodo = ({ visible, onCancel, itemTodo, updateTodo }) => {
 						Cancel
 					</AppButton>
 					<AppButton
-						onPress={() => {
-							updateTodo(itemTodo.id, value);
+						onPress={async () => {
+							await updateTodo(itemTodo.id, value);
 							onCancel();
 						}}
 						colorBgc="blue"
