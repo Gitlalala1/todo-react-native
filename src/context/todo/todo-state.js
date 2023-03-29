@@ -3,6 +3,7 @@ import { Alert } from "react-native";
 import TodoReducer from "./todo-reducer";
 import TodoContext from "./todo-context";
 import ScreenContext from "./../screen/screen-context";
+import Http from "../http";
 
 const TodoState = ({ children }) => {
 	const initialState = {
@@ -12,18 +13,10 @@ const TodoState = ({ children }) => {
 	};
 	const [state, dispatch] = useReducer(TodoReducer, initialState);
 	const { changeScreen } = useContext(ScreenContext);
+	const service = new Http();
 
 	const addTodo = async (title) => {
-		const res = await fetch(
-			"https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos.json",
-			{
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ title }),
-			}
-		);
-		const data = await res.json();
-
+		const data = await service.post(title);
 		dispatch({ type: "ADD_TODO", title, id: data.name });
 	};
 
@@ -40,17 +33,13 @@ const TodoState = ({ children }) => {
 				{
 					text: "OK",
 					onPress: async () => {
-						changeScreen(null);
-						await fetch(
-							`https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos/${itemRemove.id}.json`,
-							{
-								method: "DELETE",
-								headers: { "Content-Type": "application/json" },
-							}
-						).catch((e) =>
-							dispatch({ type: "FETCH_TODOS_FAILURE", payload: e })
-						);
-						dispatch({ type: "REMOVE_TODO", id: itemRemove.id });
+						try {
+							changeScreen(null);
+							await service.delete(itemRemove.id);
+							dispatch({ type: "REMOVE_TODO", id: itemRemove.id });
+						} catch (error) {
+							dispatch({ type: "FETCH_TODOS_FAILURE", payload: error });
+						}
 					},
 				},
 			],
@@ -59,30 +48,23 @@ const TodoState = ({ children }) => {
 	};
 	const fetchTodos = async () => {
 		try {
-			const res = await fetch(
-				"https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos.json"
-			);
+			const data = await service.get();
 
-			const data = await res.json();
 			const todos = Object.keys(data).map((key) => ({ ...data[key], id: key }));
-			dispatch({ type: "FETCH_TODOS_REQUEST", payload: todos });
-			dispatch({ type: "FETCH_TODOS_SUCCESS" });
+			dispatch({ type: "FETCH_TODOS_REQUEST", payload: initialState });
+			dispatch({ type: "FETCH_TODOS_SUCCESS", payload: todos });
 		} catch (error) {
 			dispatch({ type: "FETCH_TODOS_FAILURE", payload: error });
 		}
 	};
 
 	const updateTodo = async (id, title) => {
-		await fetch(
-			`https://todo-react-native-f0345-default-rtdb.firebaseio.com/todos/${id}.json`,
-			{
-				method: "PATCH",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ title }),
-			}
-		).catch((e) => dispatch({ type: "FETCH_TODOS_FAILURE", payload: e }));
-
-		dispatch({ type: "UPDATE_TODO", id, title });
+		try {
+			await service.update(id, title);
+			dispatch({ type: "UPDATE_TODO", id, title });
+		} catch (error) {
+			dispatch({ type: "FETCH_TODOS_FAILURE", payload: error });
+		}
 	};
 
 	return (

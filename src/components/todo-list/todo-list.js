@@ -5,7 +5,7 @@ import ScreenContext from "../../context/screen/screen-context";
 import TodoItem from "../todo-item";
 const TodoList = () => {
 	const [device, setDevice] = useState(Dimensions.get("window").width);
-	const { todos, removeTodo, loading } = useContext(TodoContext);
+	const { todos, removeTodo } = useContext(TodoContext);
 	const { changeScreen } = useContext(ScreenContext);
 
 	useEffect(() => {
@@ -14,9 +14,7 @@ const TodoList = () => {
 		};
 		Dimensions.addEventListener("change", updateWidth);
 	});
-	if (loading) {
-		return <Text>Loading. Waiting please...</Text>;
-	}
+
 	return (
 		<View>
 			<FlatList

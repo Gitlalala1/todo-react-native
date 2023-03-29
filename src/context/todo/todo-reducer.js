@@ -25,11 +25,11 @@ const handlers = {
 	}),
 
 	["FETCH_TODOS_REQUEST"]: (state, action) => ({
-		...state,
-		todos: action.payload,
+		...action.payload,
 	}),
 	["FETCH_TODOS_SUCCESS"]: (state, action) => ({
 		...state,
+		todos: action.payload,
 		loading: false,
 	}),
 
